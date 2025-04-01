@@ -1,7 +1,7 @@
-package com.example.bank.controller
+package com.example.software_systems_business_logic_lab1.payment.controllers
 
-import com.example.bank.dto.OrderPaymentRequest
-import com.example.bank.service.OrderPaymentService
+import com.example.software_systems_business_logic_lab1.payment.dto.OrderPaymentRequest
+import com.example.software_systems_business_logic_lab1.payment.services.OrderPaymentService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

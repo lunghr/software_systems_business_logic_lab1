@@ -1,4 +1,3 @@
-
 package com.example.software_systems_business_logic_lab1.application.models
 
 import org.springframework.data.cassandra.core.mapping.PrimaryKey

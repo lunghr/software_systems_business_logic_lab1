@@ -1,7 +1,7 @@
-package com.example.bank.service
+package com.example.software_systems_business_logic_lab1.payment.services
 
 //import com.example.bank.dto.Product
-import com.example.bank.repository.PaymentCardRepository
+import com.example.software_systems_business_logic_lab1.payment.repos.PaymentCardRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
@@ -15,7 +15,6 @@ class OrderPaymentService(
         val paymentCard = paymentCardRepository.findByCardNumber(cardNumber)
             ?: return "Карта не найдена"
 
-        // Расчитываем итоговую сумму заказа
         val totalAmount = products.sumOf { it }
 
         // Формирование URL для вызова PaymentController

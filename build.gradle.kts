@@ -2,7 +2,7 @@ plugins {
     kotlin("jvm") version "2.1.20"
     kotlin("plugin.spring") version "2.1.20"
     kotlin("plugin.noarg") version "2.1.20"
-    kotlin("plugin.jpa") version "1.9.25"
+    kotlin("plugin.jpa") version "2.1.20"
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
 }
@@ -13,7 +13,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -41,9 +41,6 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.postgresql:postgresql")
-
-    
-
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -52,7 +49,6 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(17)
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }

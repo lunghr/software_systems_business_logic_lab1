@@ -1,3 +1,5 @@
+package com.example.software_systems_business_logic_lab1.payment.bank
+
 import org.springframework.stereotype.Service
 
 @Service
