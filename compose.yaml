@@ -1,44 +1,16 @@
 services:
   database:
-    container_name: 'cassandra'
-    image: cassandra:latest
+    container_name: 'postgres'
+    image: postgres:15
     environment:
-      - CASSANDRA_DC=datacenter1
-      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-    healthcheck:
-      test: [ "CMD", "cqlsh", "-e", "DESCRIBE KEYSPACES" ]
-      interval: 10s
-      retries: 5
-      start_period: 30s
-      timeout: 5s
+      - POSTGRES_DB=blps_bank
+      - POSTGRES_USER=mariia
+      - POSTGRES_PASSWORD=5432
     ports:
-      - '9042:9042'
-    expose:
-      - '9042'
+      - '5432:5432'
     networks:
-      - cassandra_network
-
-  backend:
-    container_name: 'backend-blps'
-    image: 'lunghr/blps-1:latest'
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - '8080:8080'
-    depends_on:
-      database:
-        condition: service_healthy
-    environment:
-       - SPRING_CASSANDRA_CONTACT_POINTS=cassandra
-       - SPRING_CASSANDRA_PORT=9042
-       - SPRING_CASSANDRA_LOCAL_DATACENTER=datacenter1
-    networks:
-      - cassandra_network
+      - app_network
 
 networks:
-    cassandra_network:
-        driver: bridge
-#
-#volumes:
-#  cassandra_data:
+  app_network:
+    driver: bridge
