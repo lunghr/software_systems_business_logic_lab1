@@ -7,9 +7,11 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class OrderPaymentService(
-    private val restTemplate: RestTemplate,
     private val paymentCardRepository: PaymentCardRepository
 ) {
+
+    private val restTemplate: RestTemplate = RestTemplate()
+
     fun processOrderPayment(cardNumber: String, products: List<Double>): String {
         // Находим данные карты в БД по номеру
         val paymentCard = paymentCardRepository.findByCardNumber(cardNumber)
