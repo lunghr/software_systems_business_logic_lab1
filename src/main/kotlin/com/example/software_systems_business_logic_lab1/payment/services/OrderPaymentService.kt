@@ -1,31 +1,49 @@
 package com.example.software_systems_business_logic_lab1.payment.services
 
-//import com.example.bank.dto.Product
+import com.example.software_systems_business_logic_lab1.payment.dto.OrderPaymentRequest
+import com.example.software_systems_business_logic_lab1.payment.entities.PaymentDataForOzon
 import com.example.software_systems_business_logic_lab1.payment.repos.PaymentCardRepository
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.http.HttpEntity
+
+
 
 @Service
 class OrderPaymentService(
     private val restTemplate: RestTemplate,
     private val paymentCardRepository: PaymentCardRepository
 ) {
-    fun processOrderPayment(cardNumber: String, products: List<Double>): String {
-        // Находим данные карты в БД по номеру
+    fun processOrderPayment(cardNumber: String, totalPrice: Double): String {
         val paymentCard = paymentCardRepository.findByCardNumber(cardNumber)
             ?: return "Карта не найдена"
 
-        val totalAmount = products.sumOf { it }
+        // Создаем DTO для платежа
+        val paymentRequest = OrderPaymentRequest(
+            cardNumber = cardNumber,
+            cvv = paymentCard.cvv,
+            expirationDate = paymentCard.expirationDate,
+            totalPrice = totalPrice
+        )
 
-        // Формирование URL для вызова PaymentController
-        val url = "http://localhost:8080/payment/process" +
-                "?cardNumber=$cardNumber" +
-                "&cvv=${paymentCard.cvv}" +
-                "&expirationDate=${paymentCard.expirationDate}" +
-                "&amount=$totalAmount"
+        val url = "http://localhost:8080/bank/payment-ozon"
 
-        // Отправка POST-запроса к контроллеру банка
-        return restTemplate.postForObject(url, null, String::class.java)
+        val headers = HttpHeaders().apply {
+            contentType = MediaType.APPLICATION_JSON
+        }
+        val requestEntity = HttpEntity(paymentRequest, headers)
+
+        return restTemplate.postForObject(url, requestEntity, String::class.java)
             ?: "Ошибка обработки платежа"
+    }
+
+    fun getAllCardNumbers(userId: Int): List<String> {
+        return paymentCardRepository.findAllByUserId(userId).map { it.cardNumber }
+    }
+
+    fun addNewPaymentCard(paymentCard: PaymentDataForOzon): PaymentDataForOzon {
+        return paymentCardRepository.save(paymentCard)
     }
 }

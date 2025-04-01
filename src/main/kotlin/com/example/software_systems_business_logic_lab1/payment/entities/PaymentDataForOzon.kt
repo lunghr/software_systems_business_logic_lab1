@@ -1,6 +1,7 @@
 package com.example.software_systems_business_logic_lab1.payment.entities
 
 import jakarta.persistence.*
+import java.util.*
 
 @Entity
 @Table(name = "ozon_cards_data")
@@ -13,5 +14,7 @@ data class PaymentDataForOzon(
     @Column(name = "cvv", nullable = false)
     val cvv: String,
     @Column(name = "expiration_date", nullable = false)
-    val expirationDate: String
+    val expirationDate: String,
+    @Column(name = "user_id", nullable = false)
+    val userId: Int
 )

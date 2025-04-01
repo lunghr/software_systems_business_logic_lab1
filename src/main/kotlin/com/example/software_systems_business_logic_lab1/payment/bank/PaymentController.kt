@@ -1,21 +1,25 @@
 package com.example.software_systems_business_logic_lab1.payment.bank
 
+
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/bank")
 class PaymentController(
     private val paymentService: PaymentService
 ) {
-    @PostMapping("/process")
+    @PostMapping("/payment-ozon")
     fun processPayment(
-        @RequestParam cardNumber: String,
-        @RequestParam cvv: String,
-        @RequestParam expirationDate: String,
-        @RequestParam amount: Double
+        @Valid @RequestBody request: PaymentRequest
     ): ResponseEntity<String> {
-        val result = paymentService.processPayment(cardNumber, cvv, expirationDate, amount)
+        val result = paymentService.processPayment(
+                request.cardNumber,
+        request.cvv,
+        request.expirationDate,
+        request.totalPrice
+        )
         return ResponseEntity.ok(result)
     }
 }
