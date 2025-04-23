@@ -3,10 +3,8 @@ package com.example.software_systems_business_logic_lab1.application.services
 import com.example.software_systems_business_logic_lab1.application.models.*
 import com.example.software_systems_business_logic_lab1.application.repos.CartProductRepository
 import com.example.software_systems_business_logic_lab1.application.repos.CartRepository
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class CartService(

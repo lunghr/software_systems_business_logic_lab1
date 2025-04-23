@@ -2,13 +2,11 @@ package com.example.software_systems_business_logic_lab1.application.services
 
 import com.example.software_systems_business_logic_lab1.application.dto.ProductDto
 import com.example.software_systems_business_logic_lab1.application.models.CategoryIsParentException
-import com.example.software_systems_business_logic_lab1.application.models.CategoryNotFoundException
 import com.example.software_systems_business_logic_lab1.application.models.Product
 import com.example.software_systems_business_logic_lab1.application.models.ProductNotFoundException
-import com.example.software_systems_business_logic_lab1.application.repos.CategoryRepository
 import com.example.software_systems_business_logic_lab1.application.repos.ProductRepository
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class ProductService(
@@ -22,7 +20,6 @@ class ProductService(
             .takeIf { categoryService.isAvailableToAddProduct(it) }
             ?.let { productRepository.save(productDto.toProduct()) }
             ?: throw CategoryIsParentException(productDto.categoryId.toString())
-
 
 
     fun isAvailableToOrder(productId: UUID, quantity: Int): Boolean {
@@ -48,4 +45,12 @@ class ProductService(
         return productRepository.findProductsByIds(productIds)
     }
 
+    fun updateProductStock(products: List<UUID>) {
+        // Получаем все продукты по их UUID
+        val productList = getProductsByUUIds(products)
+        // Для каждого продукта уменьшаем остаток на 1 (или на нужное количество, если требуется)
+        productList.forEach { product ->
+            reduceProductStockQuantity(product.key.productId, product.key.categoryId, 1)
+        }
+    }
 }
