@@ -37,10 +37,16 @@ class CartController(
         @PathVariable productId: UUID
     ) = cartService.incrementProductQuantity(cartId, productId)
 
+    // @PostMapping("/add/{cartId}/{productId}")
+    // fun addProductToCart(
+    //     @PathVariable cartId: UUID,
+    //     @PathVariable productId: UUID
+    // ) = cartService.addProductToCart(cartId, productId)
+
     @PostMapping("/add/{cartId}/{productId}")
-    fun addProductToCart(
+    fun addProductTransactional(
         @PathVariable cartId: UUID,
         @PathVariable productId: UUID
-    ) = cartService.addProductToCart(cartId, productId)
+    ) = cartService.addProductTransactional(cartId, productId)
 
 }

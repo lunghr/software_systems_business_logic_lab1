@@ -4,6 +4,7 @@ import com.example.software_systems_business_logic_lab1.application.models.*
 import com.example.software_systems_business_logic_lab1.application.repos.CartProductRepository
 import com.example.software_systems_business_logic_lab1.application.repos.CartRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
@@ -28,6 +29,26 @@ class CartService(
             }
                 ?: throw ProductNotFoundException()
         } ?: throw CartNotFoundException()
+    }
+
+    @Transactional
+    fun addProductTransactional(cartId: UUID, productId: UUID): List<CartProduct> {
+        val cart = cartRepository.findCartById(cartId) ?: throw CartNotFoundException()
+        val existing = cartProductRepository.findCartProductByKeyCartIdAndKeyProductId(cartId, productId)
+        if (existing != null) {
+            if (productService.isAvailableToOrder(productId, 1)) {
+                cartProductRepository.updateQuantity(existing.quantity + 1, cartId, productId)
+            } else {
+                throw OutOfStockException()
+            }
+        } else {
+            if (productService.isExists(productId)) {
+                cartProductRepository.saveIfNotExists(cartId, productId, 1)
+            } else {
+                throw ProductNotFoundException()
+            }
+        }
+        return getCart(cartId)
     }
 
     fun incrementProductQuantity(cartId: UUID, productId: UUID): Int {
