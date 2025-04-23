@@ -62,7 +62,7 @@ class SecurityConfig(
                     .requestMatchers("/notifications/**").permitAll()
                     .requestMatchers("/swagger-ui/**", "/swagger-resources/", "/v3/api-docs/**","/openapi.yaml").permitAll()
                     .requestMatchers("/category/create/**").hasAnyAuthority("ADMIN", "MODERATOR")
-                    .requestMatchers("/product/**").hasAuthority("TRADER")
+                    .requestMatchers("/product/**").hasAnyAuthority("TRADER", "ADMIN", "MODERATOR")
                     .requestMatchers("/auth/change-role/**").hasAuthority("ADMIN")//
                     .anyRequest().authenticated()
             }
