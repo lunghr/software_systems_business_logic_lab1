@@ -5,9 +5,10 @@ import com.example.software_systems_business_logic_lab1.application.models.Order
 import com.example.software_systems_business_logic_lab1.application.models.ProductNotFoundException
 import com.example.software_systems_business_logic_lab1.application.models.enums.OrderPaymentStatus
 import com.example.software_systems_business_logic_lab1.application.repos.OrderRepository
+import jakarta.transaction.Transactional
 import org.springframework.data.cassandra.core.CassandraTemplate
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class OrderService(
@@ -59,5 +60,13 @@ class OrderService(
     fun changeOrderStatus(order: Order, status: OrderPaymentStatus): Order {
         order.orderPaymentStatus = status
         return orderRepository.save(order)
+    }
+
+    @Transactional
+    fun placeOrder(cartId: UUID, products: List<UUID>): Order {
+        val order = createOrder(cartId, products)
+        productService.updateProductStock(products)
+        // Удаление заказанных товаров из корзины (реализовано в moveToOrder внутри createOrder)
+        return order
     }
 }

@@ -50,6 +50,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation(kotlin("stdlib-jdk8"))
+    implementation("com.atomikos:transactions-spring-boot3-starter:6.0.0")
+    implementation("jakarta.transaction:jakarta.transaction-api")
 }
 
 kotlin {
@@ -61,6 +63,13 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.register<org.springframework.boot.gradle.tasks.run.BootRun>("runApp") {
+    group = "application"
+    description = "Запуск Spring Boot приложения"
+    mainClass.set("com.example.software_systems_business_logic_lab1.SoftwareSystemsBusinessLogicLab1ApplicationKt")
+    classpath = sourceSets["main"].runtimeClasspath
 }
 
 noArg {

@@ -15,6 +15,6 @@ class OrderController(
     fun createOrder(
         @PathVariable cartId: UUID,
         @RequestBody products: List<UUID>
-    ) = orderService.createOrder(cartId, products)
+    ) = orderService.placeOrder(cartId, products)
 
 }
