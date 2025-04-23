@@ -64,13 +64,13 @@ kotlin {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-tasks.register<org.springframework.boot.gradle.tasks.run.BootRun>("runApp") {
-    group = "application"
-    description = "Запуск Spring Boot приложения"
-    mainClass.set("com.example.software_systems_business_logic_lab1.SoftwareSystemsBusinessLogicLab1ApplicationKt")
-    classpath = sourceSets["main"].runtimeClasspath
-}
+//
+//tasks.register<org.springframework.boot.gradle.tasks.run.BootRun>("runApp") {
+//    group = "application"
+//    description = "Запуск Spring Boot приложения"
+//    mainClass.set("com.example.software_systems_business_logic_lab1.SoftwareSystemsBusinessLogicLab1ApplicationKt")
+//    classpath = sourceSets["main"].runtimeClasspath
+//}
 
 noArg {
     invokeInitializers = true
