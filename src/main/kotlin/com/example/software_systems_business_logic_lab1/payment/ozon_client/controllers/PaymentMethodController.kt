@@ -11,6 +11,7 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/payment")
+@CrossOrigin(origins = ["*"])
 @Tag(name = "Payment Method Controller", description = "Controller for managing payment methods")
 class PaymentMethodController(
     private val paymentMethodService: PaymentMethodService

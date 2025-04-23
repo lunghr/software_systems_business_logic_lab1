@@ -34,11 +34,13 @@ class BankService(
         }
 
     fun validateCard(cardNumber: String, expirationDate: String, cvv: String): Boolean {
+        println(" Validating card data: $cardNumber, $expirationDate, $cvv")
+
         val card = cardRepository.findByCardDetails(
             cardNumber = cardNumber,
             expirationDate = expirationDate,
             cvv = cvv
-        ) ?: throw RuntimeException("Card not found")
+        ) ?: throw BankAccountNotFoundException()
         println(card.cardNumber)
         println(card.expirationDate)
         println(card.cvv)
