@@ -30,6 +30,8 @@ class PaymentMethodService(
         val user = userRepository.findUserById(userId)
             ?: throw UserNotFoundException()
 
+        println("User found: ${user.email}, ${user.phoneNumber}, ${user.password}, ${user.role}")
+        println("Card data: $cardNumber, $cvv, $expiryDate")
         val isValid = bankService.validateCard(cardNumber, expiryDate, cvv)
 
         if (!isValid) {
